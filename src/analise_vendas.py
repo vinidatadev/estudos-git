@@ -91,6 +91,9 @@ class AnalisadorVendas:
             print("❌ Dados não carregados. Execute carregar_dados() primeiro.")
             return
         
+        # Criar pasta docs se não existir
+        os.makedirs('docs', exist_ok=True)
+        
         # Configuração do estilo
         plt.style.use('seaborn-v0_8')
         sns.set_palette("husl")
@@ -134,6 +137,47 @@ class AnalisadorVendas:
         print(f"📈 Dashboard salvo em: {output_path}")
         
         plt.show()
+    
+    def gerar_relatorio_texto(self) -> None:
+        """Gera um relatório em texto das vendas."""
+        if self.df is None:
+            print("❌ Dados não carregados. Execute carregar_dados() primeiro.")
+            return
+        
+        # Criar pasta docs se não existir
+        os.makedirs('docs', exist_ok=True)
+        
+        # Gerar relatório
+        relatorio_path = 'docs/relatorio_vendas.txt'
+        
+        with open(relatorio_path, 'w', encoding='utf-8') as f:
+            f.write("=" * 60 + "\n")
+            f.write("📊 RELATÓRIO DE ANÁLISE DE VENDAS\n")
+            f.write("=" * 60 + "\n\n")
+            
+            # Estatísticas gerais
+            total_vendas = self.df['valor'].sum()
+            media_vendas = self.df['valor'].mean()
+            f.write(f"💰 Total de Vendas: R$ {total_vendas:,.2f}\n")
+            f.write(f"📈 Média por Venda: R$ {media_vendas:,.2f}\n")
+            f.write(f"🔢 Número de Vendas: {len(self.df)}\n\n")
+            
+            # Análise por produto
+            f.write("📦 ANÁLISE POR PRODUTO:\n")
+            f.write("-" * 30 + "\n")
+            vendas_produto = self.df.groupby('produto').agg({
+                'valor': ['sum', 'count', 'mean']
+            }).round(2)
+            f.write(str(vendas_produto) + "\n\n")
+            
+            # Top vendedores
+            f.write("🏆 TOP VENDEDORES:\n")
+            f.write("-" * 30 + "\n")
+            top_vendedores = self.df.groupby('vendedor')['valor'].sum().sort_values(ascending=False)
+            for i, (vendedor, valor) in enumerate(top_vendedores.items(), 1):
+                f.write(f"{i}. {vendedor}: R$ {valor:,.2f}\n")
+        
+        print(f"📄 Relatório salvo em: {relatorio_path}")
 
 
 def main():
@@ -155,6 +199,11 @@ def main():
         resposta = input("\n📊 Deseja gerar visualizações? (s/n): ").lower().strip()
         if resposta in ['s', 'sim', 'y', 'yes']:
             analisador.gerar_visualizacoes()
+        
+        # Perguntar se deseja gerar relatório
+        resposta_relatorio = input("\n📄 Deseja gerar relatório em texto? (s/n): ").lower().strip()
+        if resposta_relatorio in ['s', 'sim', 'y', 'yes']:
+            analisador.gerar_relatorio_texto()
         
         print(f"\n✅ Análise concluída em {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
     else:
