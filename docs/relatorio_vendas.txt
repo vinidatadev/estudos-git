@@ -1,0 +1,30 @@
+============================================================
+📊 RELATÓRIO DE ANÁLISE DE VENDAS
+============================================================
+
+💰 Total de Vendas: R$ 9,080.55
+📈 Média por Venda: R$ 908.05
+🔢 Número de Vendas: 10
+
+📦 ANÁLISE POR PRODUTO:
+------------------------------
+            valor               
+              sum count     mean
+produto                         
+Headset    180.00     1   180.00
+Monitor    850.00     1   850.00
+Mouse       98.80     2    49.40
+Notebook  7600.00     3  2533.33
+Teclado    256.25     2   128.12
+Webcam      95.50     1    95.50
+
+🏆 TOP VENDEDORES:
+------------------------------
+1. Fernanda Cruz: R$ 2,800.00
+2. João Silva: R$ 2,552.90
+3. Carlos Lima: R$ 2,300.00
+4. Ana Oliveira: R$ 850.00
+5. Maria Santos: R$ 181.65
+6. Lucia Ferreira: R$ 180.00
+7. Pedro Costa: R$ 120.50
+8. Roberto Alves: R$ 95.50
